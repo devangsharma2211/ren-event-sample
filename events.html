@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Website Reveal</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+  /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    /* Prevent scrolling */
+    background-color: black;
+    overflow: hidden;
+    z-index: -1;
+    
+}
+body.allowscroll{
+  overflow: hidden;
+}
+
+/*--------------------event.html-----------------*/
+
+/* 3D Scene Container */
+#scene-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 1;
+}
+
+/* Hidden Content */
+#content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0; /* Start hidden */
+    z-index: 1;
+    transition: opacity 2s ease-in-out;
+}
+
+
+/* Navbar */
+.navbar {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.event{
+   
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid white;
+    width: 80%;
+    height: 65%;
+    z-index: 1;
+
+}
+
+body.allow-scroll {
+    overflow: auto;
+}
+
+
+/* Images container styling */
+.images {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 50%;
+    opacity: 0;
+    margin-left: 10%;
+    transition: opacity 1s ease-in-out;
+}
+.images .event-item {
+    width: 32.5%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(100px); /* Start off-screen */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.event-item img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Animation when visible */
+.images .event-item.visible {
+    opacity: 1;
+    transform: translateY(0); /* Bring to its original position */
+}
+
+
+/*.images .event-item {
+    width: 32.5%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+}
+.event-item img{
+  width: 100%;
+  height: 100%;
+}*/
+#footer{
+  
+    position: fixed;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    
+
+}
+
+</style>
+  </head>
+  <body>
+
+    <!-- 3D Scene Container -->
+    <div id="scene-container"></div>
+
+    <!-- Hidden Content -->
+    <nav class="navbar" id="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="Logo">
+      </div>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+    <div id="content">
+      <div class="welcome-text">
+
+        <h1>Welcome to JECRC RENASSIANCE</h1>
+        <p>Explore the amazing features we have to offer.</p>
+      </div>
+    </div>
+      <div class="images" id="images">
+          <div class="event-item">
+            <img src="images/singer.jpg" alt="">
+          </div>
+          <div class="event-item">
+            <img src="images/singer.jpg" alt="">
+
+          </div>
+          <div class="event-item">
+            <img src="images/singer.jpg" alt="">
+
+          </div>
+      </div>
+      <div id="footer">
+
+        <footer class="footer" >
+          <p>This is the footer content that stays on top of the video.</p>
+        </footer>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+
+  </body>
+  <script>
+  // Scene Setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('scene-container').appendChild(renderer.domElement);
+
+// Add a rotating sphere
+const geometry = new THREE.SphereGeometry(1, 32, 32);
+const material = new THREE.MeshStandardMaterial({ color: 0xf39c12 });
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+// Light
+const light = new THREE.PointLight(0xffffff, 1, 100);
+light.position.set(10, 10, 10);
+scene.add(light);
+
+// Animation
+let revealStarted = false;
+/*function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the sphere
+    sphere.rotation.x += 0.01;
+    sphere.rotation.y += 0.01;
+
+    // Gradually zoom out to reveal content
+    if (camera.position.z > 0.5 && !revealStarted) {
+        camera.position.z -= 0.05;
+    } else if (!revealStarted) {
+        revealStarted = true;
+        document.getElementById('content').style.opacity = 1; // Reveal content
+        document.getElementById('navbar').style.opacity = 1; // Reveal content
+        document.getElementById('images').style.opacity = 1; // Reveal content
+        document.body.classList.add('allow-scroll');
+        
+    }
+
+    renderer.render(scene, camera);
+}*/
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the sphere
+    sphere.rotation.x += 0.01;
+    sphere.rotation.y += 0.01;
+
+    // Gradually zoom out the camera
+    if (camera.position.z > 0.5 && !revealStarted) {
+        camera.position.z -= 0.05;
+    } else if (!revealStarted) {
+        revealStarted = true;
+
+        // Reveal content, images, and footer
+        document.getElementById('content').style.opacity = 1;
+        document.getElementById('navbar').style.opacity = 1;
+        document.getElementById('images').style.opacity = 1;
+        document.getElementById('footer').style.opacity = 1;
+        
+      
+
+        // Enable scrolling
+        document.body.classList.add('allow-scroll');
+    }
+
+
+    renderer.render(scene, camera);
+}
+animate();
+
+
+// Handle Resizing
+window.addEventListener("resize", () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
+
+</script>
+</html>

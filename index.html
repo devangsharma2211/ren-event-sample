@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Video</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!--bg video-->
+    <div class="video-container">
+      <video autoplay loop muted playsinline>
+        <source src="images/video.mp4.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>Enjoy the video background!</p>
+      </div>
+    </div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="Logo">
+      </div>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+
+    <div class="card-container">
+      <div class="card" id="card1">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="images/pexels-joshsorenson-976866.jpg" alt="Card 1">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card" id="card2">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="images/pexels-mikky-k-158844-625644.jpg" alt="Card 2">
+          </div>
+        </div>
+      </div>
+      <div class="card" id="card3">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="images/pexels-wendywei-1190297.jpg" alt="Card 3">
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+    <!-- Footer -->
+
+    <footer class="footer" style="position: absolute;">
+      <p>This is the footer content that stays on top of the video.</p>
+    </footer>
+
+  </body>
+  <script src="script.js">
+// Hamburger Menu Toggle
+const hamburger = document.querySelector('.hamburger');
+const navList = document.querySelector('.nav-list');
+const closeBtn = document.querySelector('.close-btn');
+
+// Toggle nav menu on hamburger click
+hamburger.addEventListener('click', () => {
+    navList.classList.add('active');
+});
+
+// Close nav menu on close button click
+close-btn.addEventListener('click', () => {
+    navList.classList.remove('active');
+});
+
+window.addEventListener('load', () => {
+    const cards = document.querySelectorAll('.card');
+    let delay = 0;
+
+    // Slide cards into view one by one
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('show');
+        }, delay);
+        delay += 500;
+    });
+});
+
+/*const cards = document.querySelectorAll('.card');
+
+cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const cardWidth = card.offsetWidth;
+        const cardHeight = card.offsetHeight;
+        const mouseX = e.clientX - card.offsetLeft;
+        const mouseY = e.clientY - card.offsetTop;
+
+        // Calculate tilt based on mouse position
+        const tiltX = (mouseY / cardHeight - 0.5) * 10; // Adjust the factor for tilt
+        const tiltY = (mouseX / cardWidth - 0.5) * -10;
+
+        // Apply tilt effect
+        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)'; // Reset tilt
+    });
+});*/
+
+
+    </script>
+</html>
